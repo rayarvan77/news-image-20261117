@@ -18,6 +18,10 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     dst = os.path.join(out_dir, "entry.png")
     shutil.copyfile(SRC, dst)
+    # Both runs must write the same bytes: refuse to report success if the
+    # copy ever differs from the repository's image.
+    if os.path.getsize(dst) != os.path.getsize(SRC):
+        sys.exit("entry.png copy size mismatch")
     print("wrote", dst, os.path.getsize(dst), "bytes")
 
 
